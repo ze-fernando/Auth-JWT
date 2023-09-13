@@ -8,8 +8,5 @@ route.get('/singup', (req, res) => {
     res.send('singup')
 })
 
-route.get('/logout', (req, res) => {
-    res.send('logout')
-})
 
 module.exports = route;
