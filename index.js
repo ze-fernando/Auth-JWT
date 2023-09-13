@@ -1,9 +1,17 @@
 const express = require('express');
 const app = express();
 
+const auth = require('./src/routes/authRoute');
 
-app.get('/', (req, res) => {
-  res.send('Olá');
-});
+const user = require('./src/routes/userRoute');
+
+app.use('/', auth);
+
+app.use('/', auth);
+
+app.use('/', auth);
+
+
+app.use('/', user)
 
 app.listen(3000);
