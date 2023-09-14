@@ -1,6 +1,8 @@
 const route = require('express').Router();
 
-route.get('/home', (req, res) => {
+const verify = require('../middlewares/verifyToken')
+
+route.get('/home', verify, (req, res) => {
     res.json({"route": 'home'})
 })
 

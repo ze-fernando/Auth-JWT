@@ -4,10 +4,6 @@ class User{
         this.username = username
         this.pass = pass
     }
-
-    isEquals(object) {        
-        return JSON.stringify(this) == JSON.stringify(objeto)
-    }
 }
 
 
