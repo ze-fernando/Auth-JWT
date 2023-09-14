@@ -11,13 +11,12 @@ route.post('/login', (req, res) => {
     users.forEach(u => {
         if (data.username === u.username 
             && data.pass === u.pass){
-            bool = true;
-        }});
-
-    if (bool) return res.json({"message": 'ok'});
-    
-    else return res.json({"message": 'not ok'});
-
+                res.redirect('/redirect')
+                console.log('a')
+            }
+        else return res.json({"message": 'not ok'});
+        }
+    );
 })
 
 route.post('/signup', (req, res) => {
