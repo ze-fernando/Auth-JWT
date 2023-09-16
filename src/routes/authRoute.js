@@ -1,14 +1,9 @@
-const User = require('../domain/user');
+const verify = require('../util/helper');
 const route = require('express').Router();
 const secretKey = "z5*a5%s9@p0ºz44¨";
 const jwt = require('jsonwebtoken');
 const db = require('../connection/conn');
-const { json } = require('express');
-
-const users = [
-    {name: "joao", username: "jao", pass: "joao123"},
-    {name: "jose", username: "ze", pass: "jose123"}
-]
+const bcrypt = require('bcrypt');
 
 
 route.post('/login', (req, res) => {
@@ -20,21 +15,19 @@ route.post('/login', (req, res) => {
     const token = jwt.sign({ username: user.username },
         secretKey, {expiresIn: '30min'});
 
-    res.json({token})
+    res.json({token});
 })
 
 route.post('/signup', async (req, res) => {
     const data = req.body;
-    const sql = `INSERT INTO users (name, username, passrowd) VALUES ('${data.name}', '${data.username}', '${data.pass}')`;
-    try {
-        const [query] = await db.execute(sql);
-    } catch (e) {
-        console.log('Error in Database', e);
-        return json({"error": 'Invalid Keys'})
-    }
-    finally{
-        return json({'message': 'Sucess'});
-    }
+    if (verify(data)) return res.status(400).json({'error': 'Fields cannot be empty'});
+    const salt = bcrypt.genSaltSync(15);
+    const hash = bcrypt.hashSync(data.pass, salt);
+    const sql = `INSERT INTO users (name, username, passrowd) VALUES ('${data.name}', '${data.username}', '${hash}')`;
+    
+    const [query] = await db.execute(sql);
+
+    return res.status(201).json({'message': 'Created sucess'});
 })
 
 
