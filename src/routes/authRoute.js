@@ -30,14 +30,22 @@ route.post('/login', async (req, res) => {
 })
 
 route.post('/signup', async (req, res) => {
-    const data = req.body;
-    if (verify(data)) return res.status(400).json({'error': 'Fields cannot be empty'});
-    const hash = bcrypt.hashSync(data.pass, salt);
-    const sql = `INSERT INTO users (name, username, passrowd) VALUES ('${data.name}', '${data.username}', '${hash}')`;
-    
-    const [query] = await db.execute(sql);
-
-    return res.status(201).json({'message': 'Created sucess'});
+    const {name, username, pass} = req.body;
+    if (verify({name, username, pass})) return res.status(400).json({'error': 'Fields cannot be empty'});
+    try {
+        const hash = bcrypt.hashSync(pass, salt);
+        const check = 'SELECT * FROM users WHERE username = ?';
+        const [rows] = await db.execute(check, [username]);
+        
+        if (rows.length > 0) return res.json({erro: 'User aleredy exists'});
+        
+        const sql = 'INSERT INTO users (name, username, passrowd) VALUES (?, ?, ?)';
+        await db.execute(sql, [name, username, hash]);
+        return res.status(201).json({'message': 'Created sucess'});
+    } catch (error) {
+        console.error(`Erro in server: ${error.message}`);
+        res.status(500).json({erro: 'Erro in server'});
+    }
 })
 
 
