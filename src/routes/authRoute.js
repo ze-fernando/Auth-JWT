@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../connection/conn');
 const bcrypt = require('bcrypt');
 
-const salt = bcrypt.genSaltSync(15);
+const salt = bcrypt.genSalt(15);
 
 route.post('/login', async (req, res) => {
     const {username, pass} = req.body;
@@ -14,9 +14,9 @@ route.post('/login', async (req, res) => {
         const sql = `SELECT * FROM users WHERE username = ?`;
         const [rows] = await db.query(sql, [username]);
         if (rows.length > 0) {
-            const auth = await bcrypt.compare(pass , rows[3]);
+            const auth = await bcrypt.compare(pass, rows[0].passrowd);
             if (auth){
-                const token = jwt.sign({ username: user.username },secretKey, {expiresIn: '30min'});
+                const token = jwt.sign({ username: rows[0].username },secretKey, {expiresIn: '30min'});
                 console.log(rows)
                 res.status(200).json({message: 'Authorized', 'token': token});
             }
@@ -33,7 +33,7 @@ route.post('/signup', async (req, res) => {
     const {name, username, pass} = req.body;
     if (verify({name, username, pass})) return res.status(400).json({erro: 'Fields cannot be empty'});
     try {
-        const hash = bcrypt.hashSync(pass, salt);
+        const hash = await bcrypt.hash(pass, salt);
         const check = 'SELECT * FROM users WHERE username = ?';
         const [rows] = await db.execute(check, [username]);
         

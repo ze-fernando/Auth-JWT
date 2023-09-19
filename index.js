@@ -15,5 +15,5 @@ app.get('/redirect', (req, res) =>{
 })
 
 app.listen(3000, ()=>{
-  console.log("run")
+  console.log('Server is running..')
 });
