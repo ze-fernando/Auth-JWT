@@ -14,4 +14,6 @@ app.get('/redirect', (req, res) =>{
   res.redirect('/home')
 })
 
-app.listen(3000);
+app.listen(3000, ()=>{
+  console.log("run")
+});
