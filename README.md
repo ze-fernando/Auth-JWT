@@ -67,3 +67,7 @@ if you don't
  `Docker-compose up`
 
  `npm start` 
+
+ *You can test with*
+ 
+ `npm test`
