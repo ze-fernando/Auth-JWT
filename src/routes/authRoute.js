@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../connection/conn');
 const bcrypt = require('bcrypt');
 
-const salt = bcrypt.genSalt(15);
+const salt = bcrypt.genSaltSync(15);
 
 route.post('/login', async (req, res) => {
     const {username, pass} = req.body;
@@ -36,9 +36,8 @@ route.post('/signup', async (req, res) => {
         const hash = await bcrypt.hash(pass, salt);
         const check = 'SELECT * FROM users WHERE username = ?';
         const [rows] = await db.execute(check, [username]);
-        
+ 
         if (rows.length > 0) return res.json({erro: 'User aleredy exists'});
-        
         const sql = 'INSERT INTO users (name, username, passrowd) VALUES (?, ?, ?)';
         await db.execute(sql, [name, username, hash]);
         return res.status(201).json({message: 'Created sucess'});
