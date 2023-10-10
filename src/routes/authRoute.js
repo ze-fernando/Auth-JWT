@@ -33,13 +33,13 @@ route.post('/signup', async (req, res) => {
     const {name, username, pass} = req.body;
     if (verify({name, username, pass})) return res.status(400).json({erro: 'Fields cannot be empty'});
     try {
-        const hash = await bcrypt.hash(pass, salt);
+        const hash = bcrypt.hash(pass, salt);
         const check = 'SELECT * FROM users WHERE username = ?';
         const [rows] = await db.execute(check, [username]);
  
         if (rows.length > 0) return res.json({erro: 'User aleredy exists'});
         const sql = 'INSERT INTO users (name, username, passrowd) VALUES (?, ?, ?)';
-        await db.execute(sql, [name, username, hash]);
+        db.execute(sql, [name, username, hash]);
         return res.status(201).json({message: 'Created sucess'});
     } catch (error) {
         console.error(`Erro in server: ${error.message}`);
