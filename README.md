@@ -13,6 +13,26 @@
  * Nodemon
  * Docker
 
+ **Run**
+
+ `git clone https://github.com/ze-fernando/node-API`
+
+ `cd node-API`
+
+ `npm install`
+
+ `Docker-compose up`
+
+ `npm start` 
+
+(localhost:3000/doc)
+
+ *You can test with*
+ 
+ `npm test`
+
+
+
  **Endpoints**
 
  *{{localhost}}/3000/signup*
@@ -55,19 +75,3 @@ if you don't
     erro: "Invalid keys"
 }
 ```
-
- **Run**
-
- `git clone https://github.com/ze-fernando/node-API`
-
- `cd node-API`
-
- `npm install`
-
- `Docker-compose up`
-
- `npm start` 
-
- *You can test with*
- 
- `npm test`
