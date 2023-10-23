@@ -25,7 +25,7 @@
 
  `npm start` 
 
-(localhost:3000/doc)
+<localhost:3000/doc>
 
  *You can test with*
  
