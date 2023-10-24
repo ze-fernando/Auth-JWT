@@ -1,77 +1,113 @@
-# Start
- 
- **About**
-
- Authentication API with Nodejs and JWT, this API allows users to register and login, encrypts passwords and saves them securely in the database, uses 3 routes, registration login and home, you can see its details below
-
- **Stack**
- * Nodejs
- * JWT
- * Express
- * Bcrypt
- * Mysql2
- * Nodemon
- * Docker
-
- **Run**
-
- `git clone https://github.com/ze-fernando/node-API`
-
- `cd node-API`
-
- `npm install`
-
- `Docker-compose up`
-
- `npm start` 
-
-[localhost:3000/doc](http://localhost:3000/doc)
-
- *You can test with*
- 
- `npm test`
-
-
-
- **Endpoints**
-
- *{{localhost}}/3000/signup*
- 
-This route to register users, you must go through the name, username and password parameter, if your user already exists in the bank, the api will return an error stating that there is already someone with that username
-
- ```yaml
- {
-    "name": "Dudinha",
-    "username": "Madu1s",
-    "pass": "zequinhaEmadu"
- }
- ```
-
- *{{localhost}}/3000/login*
- 
-This route performs the login, you must go through the username and password parameters, if the parameters are correct the api will return the access token for the home 
-
-```yaml
 {
-    "username": "Madu1s",
-    "pass": "zequinhaEmadu"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "pass": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "pass": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  }
 }
-```
-
-*{{localhost}}/3000/home*
-
-If you have the authentication token
-
-```yaml
-{
-    "message": "This is the home page"
-}
-```
-
-if you don't 
-
-```yaml
-{
-    erro: "Invalid keys"
-}
-```
