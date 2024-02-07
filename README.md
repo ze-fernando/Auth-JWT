@@ -60,18 +60,10 @@ This route performs the login, you must go through the username and password par
 
 *{{localhost}}/3000/home*
 
-If you have the authentication token
+If you authentication
 
 ```yaml
 {
-    "message": "This is the home page"
-}
-```
-
-if you don't 
-
-```yaml
-{
-    erro: "Invalid keys"
+    "token": TOKEN
 }
 ```
